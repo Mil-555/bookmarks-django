@@ -23,6 +23,18 @@
             </li>
         </ul>
     {% endif %}
+
+    <span class="user">
+        {% if user.is_authenticated %}
+            Cześć, {{ request.user.first_name|default:request.user.username }},
+            <form action="{% url "logout" %}" method="post">
+                <button type="submit">Wyloguj</button>
+            {% csrf_token %}
+            </form>
+        {% else %}
+            <a href="{% url "login" %}">Zaloguj się</a>
+        {% endif %}
+    </span>
 </header>
 <main id="content">
     {% block content %}
