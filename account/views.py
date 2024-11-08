@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from account.forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from account.models import Profile
@@ -49,7 +50,16 @@ def register(request):
 @login_required
 def edit(request):
     if request.method == 'POST':
-        pass
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profil został zaktualizowany')
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Wystąpił błąd w formularzu")
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
