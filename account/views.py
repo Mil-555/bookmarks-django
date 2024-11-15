@@ -8,20 +8,23 @@ from account.forms import LoginForm, UserRegistrationForm, UserEditForm, Profile
 from account.models import Profile
 
 
+# Create your views here.
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
+            user = authenticate(username=cd['username'],
+                                password=cd['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Uwierzytelnianie zakończyło się sukcesem')
+                    return HttpResponse('Uwierzytelnienie zakończyło się sukcesem')
                 else:
                     return HttpResponse('Konto jest zablokowane')
             else:
                 return HttpResponse('Nieprawidłowe dane uwierzytelniające')
+
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
@@ -30,7 +33,7 @@ def user_login(request):
 @login_required
 def dashboard(request):
     return render(request, 'account/dashboard.html',
-                  {'sectrion': 'dashboard'})
+                  {'section': 'dashboard'})
 
 
 def register(request):
@@ -47,11 +50,14 @@ def register(request):
 
     return render(request, 'account/register.html', {'user_form': user_form})
 
+
 @login_required
 def edit(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=request.user.profile,
+                                       data=request.POST,
+                                       files=request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -59,7 +65,7 @@ def edit(request):
             messages.success(request, 'Profil został zaktualizowany')
             return redirect('dashboard')
         else:
-            messages.error(request, "Wystąpił błąd w formularzu")
+            messages.error(request,"Wystąpił błąd w formularzu")
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
@@ -67,3 +73,4 @@ def edit(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
