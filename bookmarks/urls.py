@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from tkinter.font import names
+
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -23,7 +25,7 @@ from bookmarks import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
-    path('images/', include('images.urls', namespace='images')),
+    path('images/', include('images.urls', namespace='images'))
 ]
 
 if settings.DEBUG:

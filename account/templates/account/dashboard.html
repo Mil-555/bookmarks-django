@@ -5,15 +5,15 @@
 
 {% block content %}
     <h1>Strona główna</h1>
-    {% with total_images_created=request.user.images_create.count %}
+    {% with total_images_created=request.user.images_created.count %}
     <p>Witaj na stronie głównej. Tutaj możesz <a href="{% url "edit" %}">edytować swoje konto</a>
-        Do tej pory zapisałeś {{ total_images_created }} zdjęć.
+    Do tej pory zapisałeś {{ total_images_created }} zdjęć.
     </p>
-        
-    <p>
-        Przeciągnij poniższy przycisk do paska zakładek aby dodawać zdjęcia z innych stron ->
-        <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="button">Bookmarklet</a>
-    </p>
-        
+
+     <p>
+     Przeciągnij poniższy przycisk do paska zakładek aby dodawać zdjęcia z innych stron ->
+     <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="button">Bookmarklet</a>
+     </p>
+    
     {% endwith %}
 {% endblock %}

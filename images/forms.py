@@ -1,8 +1,11 @@
+from http.client import responses
+
 from django import forms
 from django.core.files.base import ContentFile
 from django.utils.text import slugify
 from images.models import Image
 import requests
+
 
 class ImageCreateForm(forms.ModelForm):
     class Meta:
@@ -31,7 +34,8 @@ class ImageCreateForm(forms.ModelForm):
         image.image.save(
             image_name,
             ContentFile(response.content),
-            save=False)
+            save=False
+        )
         if commit:
             image.save()
         return image
