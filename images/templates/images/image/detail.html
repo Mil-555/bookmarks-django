@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>{{ image.title }}</h1>
-    <img src="{{ image.image_url }}" class="image-detail">
+    <img src="{{ image.image.url }}" class="image-detail">
     {% with total_likes=image.users_like.count %}
         <div class="image-info">
             <article class="image-info">
@@ -24,7 +24,10 @@
                         {% if user.profile.photo.url %}
                             <img src="{{ user.profile.photo.url }}">
                         {% endif %}
+                        <p>{{ user.first_name }}</p>
                     </section>
+                {% empty %}
+                    Nikt jeszcze nie polubił tego zdjęcia
                 {% endfor %}
             </article>
         </div>
